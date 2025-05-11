@@ -63,3 +63,7 @@ cd 2025-SSG-M5.git
 - 새로운 Guiding Questions가 생기면 Issue를 통해 공유하고 팀원들과 논의할 수 있습니다.
 
 🚀 함께 Swift Universe를 만들어 가요! 🌌
+
+
+
+제가 지금 테스트를 하고 있어요, 과연 깃허브에도 잘 올라가질까요?
