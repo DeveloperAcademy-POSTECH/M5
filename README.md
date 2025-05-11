@@ -12,7 +12,7 @@ Obsidian을 활용하여 학습한 내용을 Markdown 노트로 기록하고, Gi
 + @ieunsoo (Steve)
 + @simi-sumin (Simi)
 + @delightPIP (Taeni)
-+ @luminouxx
++ @msseock (Ssol)
 + @luminouxx
 + @luminouxx
 + @luminouxx
