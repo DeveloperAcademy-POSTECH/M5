@@ -63,5 +63,3 @@ cd 2025-SSG-M5.git
 - 새로운 Guiding Questions가 생기면 Issue를 통해 공유하고 팀원들과 논의할 수 있습니다.
 
 🚀 함께 Swift Universe를 만들어 가요! 🌌
-
-죄송합니다. 푸쉬 되나 테스트 한번 해보겠습니다.
