@@ -9,9 +9,9 @@ Obsidian을 활용하여 학습한 내용을 Markdown 노트로 기록하고, Gi
 
 ### 👥 Team Member
 + @deerg01 (Sana)
-+ @delightpip (Taeni)
-+ @luminouxx
-+ @luminouxx
++ @ieunsoo (Steve)
++ @simi-sumin (Simi)
++ @delightPIP (Taeni)
 + @luminouxx
 
 - 그룹장은 매주 돌아가며 변경될 수 있으며, 새로운 주차마다 학습 주제를 지정할 수 있습니다.
