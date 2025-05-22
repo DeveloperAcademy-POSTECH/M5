@@ -13,10 +13,14 @@
 - 알게 된 점 4.
 
 ### ✅ 팀원 확인
-- [ ] 팀원 1: @username
-- [ ] 팀원 2: @username
-- [ ] 팀원 3: @username
-- [ ] 팀원 4: @username
+- [ ] 팀원 1: @deerg01
+- [ ] 팀원 2: @ieunsoo
+- [ ] 팀원 3: @simi-sumin
+- [ ] 팀원 4: @delightPIP
+- [ ] 팀원 5: @msseock
+- [ ] 팀원 6: @hgkim215
+- [ ] 팀원 7: @NOP-YA
+- [ ] 팀원 8: @wnsgur4092
 
 ### ⚡ 리뷰어 확인
 - [ ] 학습 내용 검토 완료
@@ -25,3 +29,4 @@
 ### ⁉️ 새롭게 생긴 Curiosity
 1. 궁금한 점 1
 1. 궁금한 점 2
+
