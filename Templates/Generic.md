@@ -1,6 +1,6 @@
 >[!question]
->GQ1. GQ를 쓰세요
->GQ2. GQ를 쓰세요
+>GQ1. Generic은 무엇일까?
+>GQ2. Generic은 어떤 경우에 사용하는가?
 
 ## Description
 - 개요와 설명을 작성
