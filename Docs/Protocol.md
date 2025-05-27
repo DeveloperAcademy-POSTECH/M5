@@ -1,6 +1,6 @@
 >[!question]
 >GQ1. Swift Protocol은 어떤 역할을 하며 왜 사용하는가
->GQ2. Protocol 확장은 어떻게 사용되고 상속보다 나은 점은 무엇인가
+>GQ3. Protocol 확장은 어떻게 사용되고 상속보다 나은 점은 무엇인가
 
 
 ## Description
@@ -63,7 +63,7 @@ class ViewController: NSObject, MyDelegate {
 ```
 
 ## Keywords
-+ 파생된 키워드들을 작성
++ [[POP]]
 
 ## References
 - https://docs.swift.org/swift-book/documentation/the-swift-programming-language/protocols/
