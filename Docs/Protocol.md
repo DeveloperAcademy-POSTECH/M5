@@ -1,6 +1,6 @@
 >[!question]
 >GQ1. Swift Protocol은 어떤 역할을 하는가
->GQ3. Protocol 확장은 어떻게 사용되고 상속보다 나은 점은 무엇인가
+>GQ2. Protocol 확장은 어떻게 사용되고 상속보다 나은 점은 무엇인가
 
 @Sana
 ## Description
