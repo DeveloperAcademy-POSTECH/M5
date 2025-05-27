@@ -107,7 +107,9 @@ struct Array<Element> {
 
 - 
 ## Keywords
-+ 파생된 키워드들을 작성
++ Array
++ Dictionary
 
 ## References
-- 참고한 레퍼런스를 작성 (예 : Apple의 공식 문서)
+- https://babbab2.tistory.com/136
+- https://docs.swift.org/swift-book/documentation/the-swift-programming-language/generics/#The-Problem-That-Generics-Solve
