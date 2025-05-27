@@ -5,7 +5,7 @@
 
 ## Description
 
-###### Generic은 무엇일까?
+##### Generic은 무엇일까?
 
 Swift.org 원문에 따르면 제네릭이란
 **Write code that works for multiple types and specify requirements for those types.**
@@ -23,7 +23,7 @@ Swift 표준 라이브러리의 많은 부분이 제네릭으로 작성돼있다
 
 ---
 
-######  그렇다면, Generic은 어떤 경우에 유용할까?
+#####  그렇다면, Generic은 어떤 경우에 유용할까?
 
  아래 두 Int 값을 Swap 하는 함수가 있다고 가정해보자
 
@@ -105,9 +105,8 @@ struct Array<Element> {
 }
 ```
 
-- 
 ## Keywords
-+ Array
++ Array
 + Dictionary
 
 ## References
