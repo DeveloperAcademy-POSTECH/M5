@@ -2,6 +2,8 @@
 >GQ1. Protocol oriented language로서 Swift의 성격은 어떠한가
 >GQ2. Protocol Oreiented programming은 대체 뭔가
 >GQ3. Swift는 왜 POP를 채택했는가
+
+@Sana
 ## Description
 
 > Protocol을 통해 프로그램의 **인터페이스를 우선 설계**하고, 다양한 type에서 실제로 구현하거나 확장하는 programming paradigm. 
