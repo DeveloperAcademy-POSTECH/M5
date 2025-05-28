@@ -20,13 +20,15 @@
 ### Publisher
 내보내는 애 (to expose values that can change over time)
 
-`protocol Publisher {`
-	 `associatedtype Output`
-	 `associatedtype Failure: Error`
+```swift
+protocol Publisher {
+	associatedtype Output
+	associatedtype Failure: Error
 	 
-	 func subscribe<S: Subscriber>(_ subscriber: S)
+	func subscribe<S: Subscriber>(_ subscriber: S)
 		 where S.Input == Output, S.Failure == Failure
-`}`
+}
+```
 
 - `Output`: Publisher가 내보낸 값의 타입(The kind of values published by this publisher.)
 - `Failure`: Publisher가 내보낼 수 있는 오류의 종류(The kind of errors this publisher might publish.)
@@ -37,14 +39,16 @@
 ### Subscriber
 받는 애 (to receive those values from the publishers)
 
-`protocol Subscriber {`
-	`associatedtype Input`
-	`associatedtype Failure: Error`
+```swift
+protocol Subscriber {`
+	associatedtype Input`
+	associatedtype Failure: Error`
 	
 	func receive(subscription: Subscription)
 	func receive(_ input: Input) -> Subscribers.Demand
 	func receive(completion: Subscribers.Completion<Failure>)
-`}`
+}
+````
 
 - `Input`: Subscriber가 받는 값의 타입
   (The kind of values this subscriber receives.)
@@ -65,18 +69,22 @@ Combine에서는 subscriber를 직접 구현하지 않아도, Publisher의 Outpu
 1. **sink**: Publisher가 보내주는 값을 직접 작성한 코드로 처리
 	1. `sink(receiveCompletion:receiveValue:)`
 	2. `sink(receiveValue:)`
-	
-	`$namePublisher`
-	    `.sink { name in`
-	        `print("입력된 이름은 \(name)입니다")  // 값을 직접 받아서 처리`
-	    `}`
+
+	```swift
+$namePublisher
+	.sink { name in
+		print("입력된 이름은 \(name)입니다")  // 값을 직접 받아서 처리
+	}
+```
 	    
 2. **assign**: 값을 자동으로 특정 객체의 속성에 대입(assign) 해주는 방식
 	1. `assign(to:on:)`
 	2. `assign(to:)`
-
-	`$isLoginEnabledPublisher`
-		`.assign(to: \.isEnabled, on: loginButton)  // 값이 바뀔 때마다 버튼 상태 업데이트`
+```swift
+$isLoginEnabledPublisher
+		.assign(to: \.isEnabled, on: loginButton)  // 값이 바뀔 때마다 버튼 상태 업데이트
+```
+	
 
 ### Publisher ↔ Subscriber 흐름
 - Subscriber와 Publisher를 연결하기 위해서는 Input과 Output의 타입이 일치해야 하고, Failure도 일치해야 한다!
@@ -96,132 +104,143 @@ Combine에서는 subscriber를 직접 구현하지 않아도, Publisher의 Outpu
 	1. 상위 Publisher(upstream) 구독
 	2. 변환
 	3. 하위 Subscriber(downstream)에게 결과 값 보내는 식
+	
 - 다양한 operator
-	- 값 필터링: .filter, .removeDuplicates
-	- 시간 제어: .debounce, .throttle
-	- 값 변경: .map, .flatMap
-	- 스트림 합치기: .combineLatest, .merge, .zip
-	- 에러 처리: .catch, .retry
+	- 값 필터링: `.filter`, `.removeDuplicates`
+	- 시간 제어: `.debounce`, `.throttle`
+	- 값 변경: `.map`, `.flatMap`
+	- 스트림 합치기: `.combineLatest`, `.merge`, `.zip`
+	- 에러 처리: `.catch`, `.retry`
 
 
 ## 코드 예시
 1. Sink subscriber
-	`class SearchViewModel: ObservableObject {
-	    `@Published var searchText = ""`
-	    `@Published var searchResults: [String] = []`
-	    `@Published var isLoading = false`
-	    
-	    private var cancellables = Set<AnyCancellable>()
-	    private let searchService = SearchService()
-	    
-	    init() {
-	        $searchText
-	            .debounce(for: .milliseconds(300), scheduler: RunLoop.main)
-	            .removeDuplicates()
-	            .sink { [weak self] searchText in
-	                self?.performSearch(searchText)
-	            }
-	            .store(in: &cancellables)
-	    }
-	    
-	    private func performSearch(_ text: String) {
-			// 검색 로직
-	    }
-	`}`
+	```swift
+class SearchViewModel: ObservableObject {
+	@Published var searchText = ""
+	@Published var searchResults: [String] = []
+	@Published var isLoading = false
+	
+	private var cancellables = Set<AnyCancellable>()
+	private let searchService = SearchService()
+	
+	init() {
+		$searchText
+			.debounce(for: .milliseconds(300), scheduler: RunLoop.main)
+			.removeDuplicates()
+			.sink { [weak self] searchText in
+				self?.performSearch(searchText)
+			}
+			.store(in: &cancellables)
+	}
+	
+	private func performSearch(_ text: String) {
+		// 검색 로직
+	}
+}
+```
 	
 2. Assign Subscriber
-	`class LoginViewModel: ObservableObject {`
-	    `@Published var username = ""`
-	    `@Published var password = ""`
-	    `@Published var isLoginButtonEnabled = false`
-	
-	    private var cancellables = Set<AnyCancellable>()
-	
-	    init() {
-	        Publishers.CombineLatest($username, $password) 
-		        .map { !$0.0.isEmpty && !$0.1.isEmpty } 
-		        .assign(to: &$isLoginButtonEnabled)
-		}
-	`}`
+	```swift
+class LoginViewModel: ObservableObject {
+	@Published var username = ""
+	@Published var password = ""
+	@Published var isLoginButtonEnabled = false
+
+	private var cancellables = Set<AnyCancellable>()
+
+	init() {
+		Publishers.CombineLatest($username, $password) 
+			.map { !$0.0.isEmpty && !$0.1.isEmpty } 
+			.assign(to: &$isLoginButtonEnabled)
+	}
+}
+```
 
 3. Publisher & Subscribers
-	**Publishers**
-	`// MARK: - Publisher`
-	`@Published private var userName: String = ""`
-	`@Published private var password: String = ""`
-	`@Published private var passwordAgain: String = ""`
-	
-	`// First Publisher`
-	`// Passwords must matched & > N Characters`
-	`var validatedPassword: AnyPublisher<String?, Never> {`
-	    `return $password`
-	        `.combineLatest($passwordAgain)`
-	        `.map { password, passwordAgain in`
-	            `guard password == passwordAgain, password.count > N else { return nil }`
-	            `return password`
-	        `}`
-	        `.eraseToAnyPublisher()`
-	`}`
-	
-	`// Second Publisher`
-	`// User name is valid according to server`
-	`var validatedUsername: AnyPublisher<String?, Never> {`
-		`return $username`
-			`.debounce(for: 0.5, scheduler: RunLoop.main)`
-			`.removeDuplicates()`
-	    `.flatMap { userName in`
-		    `return Future { promise in`
-		      `self.userNameAvailable(username) { available in`
-		        `promise(.success(available ? username : nil))`
-		      `}`
-		    `}`
-			`}`
-			`.eraseToAnyPublisher()`
-	`}`
-	
-	`// Thrid Publisher`
-	`// Enabled if username and password valid`
-	`var validatedCredentials: AnyPublisher<(String, String)?, Never> {`
-		`return validatedUsername`
-			`.combineLatest(validatedPassword)`
-			`.map { userName, password in`
-				`guard let userName, let password else { return nil }`
-				`return (userName, password)`
-			`}`
-			`.eraseToAnyPublisher()`
-	`}`
-	
-	**Subscribers**
-	`// MARK: - Subscriber (assign)`
-	`private func subscribeValidatedCredentials() {`
-		`self.signupButtonStream = self.validatedCredentials`
-			`.map { $0 != nil }`
-			`.receive(on: RunLoop.main)`
-			`.assign(to: \.isEnabled, on: signupButton)`
-	`}`
-	
-	`// MARK: - UI Components`
-	`private let signupButton = UIButton()`
-	`signupButton.backroundColor = $0.isEnabled ? .systemGreen : .systemGray`
-	
-	`// MARK: - Subscriber (sink)`
-	`private func subscribeValidatedUserName() {`
-		`validatedUsername`
-			`.receive(on: RunLoop.main)`
-			`.sink { [weak self] validatedUsername in`
-				`self?.usernameImage.tintColor = (validatedUsername == nil) ? .systemRed : .systemGreen`
-			`}`
-			`.store(in: &cancellables)`
-	`}`
-	
-	`private func subscribeValidatedPassword() {`
-		`validatedPassword`
-			`.receive(on: RunLoop.main)`
-			`.sink { [weak self] validatedPassword in`
-				`self?.passwordImage.tintColor = (validtedPassword == nil) ? .systemRed : .systemGreen`
-			`}`
-			`.store(in: &cancellables)`
-	`}`
+**Publishers**
+```swift
+// MARK: - Publisher
+@Published private var userName: String = ""
+@Published private var password: String = ""
+@Published private var passwordAgain: String = ""
+
+// First Publisher
+// Passwords must matched & > N Characters
+var validatedPassword: AnyPublisher<String?, Never> {
+    return $password
+        .combineLatest($passwordAgain)
+        .map { password, passwordAgain in
+            guard password == passwordAgain, password.count > N else { return nil }
+            return password
+        }
+        .eraseToAnyPublisher()
+}
+
+// Second Publisher
+// User name is valid according to server
+var validatedUsername: AnyPublisher<String?, Never> {
+	return $username
+		.debounce(for: 0.5, scheduler: RunLoop.main)
+		.removeDuplicates()
+    .flatMap { userName in
+	    return Future { promise in
+	      self.userNameAvailable(username) { available in
+	        promise(.success(available ? username : nil))
+	      }
+	    }
+		}
+		.eraseToAnyPublisher()
+}
+
+// Thrid Publisher
+// Enabled if username and password valid
+var validatedCredentials: AnyPublisher<(String, String)?, Never> {
+	return validatedUsername
+		.combineLatest(validatedPassword)
+		.map { userName, password in
+			guard let userName, let password else { return nil }
+			return (userName, password)
+		}
+		.eraseToAnyPublisher()
+}
+```
+
+**Subscribers**
+```swift
+// MARK: - Subscriber (assign)
+private func subscribeValidatedCredentials() {
+	self.signupButtonStream = self.validatedCredentials
+		.map { $0 != nil }
+		.receive(on: RunLoop.main)
+		.assign(to: \.isEnabled, on: signupButton)
+}
+
+// MARK: - UI Components
+private let signupButton = UIButton()
+signupButton.backroundColor = $0.isEnabled ? .systemGreen : .systemGray
+
+// MARK: - Subscriber (sink)
+private func subscribeValidatedUserName() {
+	validatedUsername
+		.receive(on: RunLoop.main)
+		.sink { [weak self] validatedUsername in
+			// UI 변화 어쩌구저쩌구
+			self?.usernameImage.tintColor = (validatedUsername == nil) ? .systemRed : .systemGreen
+		}
+		.store(in: &cancellables)
+}
+
+private func subscribeValidatedPassword() {
+	validatedPassword
+		.receive(on: RunLoop.main)
+		.sink { [weak self] validatedPassword in
+			// UI 변화 어쩌구저쩌구
+			self?.passwordImage.tintColor = (validtedPassword == nil) ? .systemRed : .systemGreen
+		}
+		.store(in: &cancellables)
+}
+```
 
 ## References
 - [Apple Documentation) Combine](https://developer.apple.com/documentation/combine)
