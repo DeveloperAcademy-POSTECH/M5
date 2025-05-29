@@ -39,7 +39,7 @@ let sayHello = {
     print("Hello, \(name)!") 
 }  // 클로저가 name 변수를 캡처함
 
-greeting = "Henry" 
+name = "Henry" 
 sayHello()  // Hello, Henry!
 ```
 
