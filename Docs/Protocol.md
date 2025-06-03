@@ -64,6 +64,8 @@ class ViewController: NSObject, MyDelegate {
 
 ## Keywords
 + [[POP]]
++ [[Delegate Pattern]]
++ [[Dependency Injection]]
 
 ## References
 - https://docs.swift.org/swift-book/documentation/the-swift-programming-language/protocols/
