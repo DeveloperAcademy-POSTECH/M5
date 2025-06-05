@@ -15,7 +15,10 @@
 	    [[Protocol]]
 - **오픈 소스 (Open Source)**: Swift는 오픈 소스로 제공되며, 활발한 커뮤니티에서 발전하고 있음
 
-
+- 프레임워크 (Framework) :
+	- [[Framework]]
+- 파운데이션 (Foundation) :
+	- [[Foundation]]
 ## 코드 예시
 ```swift
 // 공식 문서의 Swift 소개 코드
