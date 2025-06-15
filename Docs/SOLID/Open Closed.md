@@ -36,14 +36,12 @@ class PaymentService {
     }
 }
 
-// 애플페이를 추가한다면?
+// 애플페이를 추가한다면? ApplePay라는 타입을 추가해주면 반영끗
 class ApplePay: PaymentMethod {
     func pay(amount: Int) {
         // 애플페이 연결해서 결제하는 코드
     }
 }
-
-
 
 ```
 
