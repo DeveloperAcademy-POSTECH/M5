@@ -4,7 +4,8 @@
 
 @Sana
 ## Description
-> SOLI ' D ' --> 어떤 객체가 dependency를 직접 생성하지 않고 외부에서 주입받는 설계 방식.
+> SOLI ' D '
+> 어떤 객체가 dependency를 직접 생성하지 않고 외부에서 주입받는 설계 방식.
 > 하위 모듈이 상위 모듈로부터 독립되는 구조
 
 왜 DI를 쓰는가
