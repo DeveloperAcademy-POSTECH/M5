@@ -32,19 +32,18 @@ protocol EmailSending {
 
 class LocalUserSaver: UserSaving {
     func save(user: User) {
-        print("User saved locally: \(user.name)")
+        // 뭔가 유저정보 저장하는 코드
     }
 }
 
 class SimpleEmailSender: EmailSending {
     func sendWelcomeEmail(to user: User) {
-        print("Welcome email sent to \(user.email)")
+        // 어떻게든 환영 메일 쓰고 보내는 코드
     }
 }
 
 class SignUpService {
     let saver: UserSaving
-    let validator: UserValidating
     let emailSender: EmailSending
 
     init(saver: UserSaving, emailSender: EmailSending) {
