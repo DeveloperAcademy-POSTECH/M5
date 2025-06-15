@@ -43,7 +43,8 @@ cd 2025-SSG-M5.git
 ```
 / 📁 swift-study
 ├── 📁 Templates      # Obsidian 학습 노트 템플릿
-├── 📁 docs           # Obsidian 기반의 학습 노트
+├── 📁 Docs           # Obsidian 기반의 학습 노트
+├── 📁 Images         # 학습 노트내에 첨부되는 이미지파일
 ├── 📁 .github        # GitHub 템플릿 (Issue, PR)
 └── README.md         # 메인 프로젝트 설명
 ```
