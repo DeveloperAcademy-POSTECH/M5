@@ -72,13 +72,14 @@ protocol Subscriber {
 ### Publisher ↔ Subscriber 흐름
 - Subscriber와 Publisher를 연결하기 위해서는 Input과 Output의 타입이 일치해야 하고, Failure도 일치해야 한다!
 
-1. Subscriber: 구독 신청
+![[스크린샷 2025-06-18 오전 1.29.11.png]]
+1. 🙋🏻 Subscriber: "나 구독할래"
 	Subscriber는 subscribe 메서드를 통해 Publisher가 방출하는 데이터를 받겠다고 구독(subscribe)을 신청한다.
-2. Publisher: 구독증 드릴게
-	Publisher는 Subscriber의 receive(subscription:)의 파라미터를 통해 구독증을 보낸다
-3. 구독증을 받은 Subscriber는 해당 구독증(subscription)으로 Publisher에게 N개의 값을 요청(request)한다
-4. Publisher는 Subscriber가 요청한 만큼 N개의 값을 보낸다(`receive(_:)`)
-5. Publisher가 더 이상 값을 publish하지 않거나 에러가 발생해서 관계가 종료되면 Publisher가 receive(completion:)을 호출해 관계의 끝을 알린다.
+2. 🙆🏼 Publisher: 구독증🎟️ 드릴게
+	Publisher는 Subscription(구독증) 객체를 만들고, Subscriber의 `receive(subscription:)`의 파라미터를 통해 Subscription을 보낸다. 이를 통해 Subscriber가 데이터를 요청하거나 구독을 해제할 수 있게 한다.
+3. 구독증을 받은 Subscriber🙋🏻는 해당 구독증(subscription🎟️)으로 Publisher🙆🏼에게 N개의 값을 요청(request)한다
+4. Publisher🙆🏼는 Subscriber🙋🏻가 요청한 만큼 N개의 값을 보낸다(`receive(_:)`)
+5. Publisher🙆🏼가 더 이상 값을 publish하지 않거나 에러가 발생해서 관계가 종료되면 Publisher🙆🏼가 `receive(completion:)`을 호출해 관계의 끝을 알린다.
 
 ### Operator
 - Publisher가 방출한 값을 변환
@@ -184,6 +185,7 @@ private func subscribeValidatedPassword() {
 
 ## Keywords
 - Publisher
+- [[Subscription]]
 - Subscriber
 - [[Built-in Subscribers]]
 - Operator
