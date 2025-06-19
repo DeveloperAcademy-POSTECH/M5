@@ -1,4 +1,4 @@
->[!question]
+%%  %%>[!question]
 >GQ1. Swift는 무엇일까?
 >GQ2. Swift는 언제 만들어졌을까?
 >GQ3. 
@@ -12,10 +12,13 @@
 - **성능 (Performance)**: LLVM 컴파일러를 통해 빠른 코드 실행을 지원
     
 - **현대적 문법 (Modern Syntax)**:
-    
+	    [[Protocol]]
 - **오픈 소스 (Open Source)**: Swift는 오픈 소스로 제공되며, 활발한 커뮤니티에서 발전하고 있음
 
-
+- 프레임워크 (Framework) :
+	- [[Framework]]
+- 파운데이션 (Foundation) :
+	- [[Foundation]]
 ## 코드 예시
 ```swift
 // 공식 문서의 Swift 소개 코드
