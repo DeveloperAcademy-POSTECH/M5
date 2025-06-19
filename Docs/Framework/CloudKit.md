@@ -181,7 +181,10 @@ Subscriptions는 다양한 유형이 있으며, 이를 통해 다양한 시나�
 - Schema > Indexes > Add
 - Records > Query Records 생성, 데이터 추가
 
-코드로 적용하는 건 다음 기회에.. (좀 더 공부가 필요함..)
+\[2025.06.18자 추가]
+### CloudKit을 내 앱에 적용하기
+노션 링크: https://kimhyeongi.notion.site/CloudKit-2072ce0304bd80bda138cc4176a0c077?source=copy_link 
+
 
 # Reference
 ---
