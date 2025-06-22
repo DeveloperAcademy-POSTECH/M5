@@ -63,7 +63,9 @@ class ViewController: NSObject, MyDelegate {
 ```
 
 ## Keywords
+- [[SOLID]]
 + [[POP]]
++ [[Delegate Pattern]]
 
 ## References
 - https://docs.swift.org/swift-book/documentation/the-swift-programming-language/protocols/
