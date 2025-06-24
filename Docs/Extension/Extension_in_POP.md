@@ -48,7 +48,7 @@ struct Person: Printable, Identifiable {
 
 
 
-### 2. POP 안에서의 Extension 결합 효과
+### 2. Extension과 POP 의 결합 효과
 
 > [!NOTE]
 > protocol 과 extension 을 결합하면 이와 같은 효과를 보인다.
@@ -75,7 +75,7 @@ extension 을 통한 기본 구현은 정적 디스패치(static dispach) -> 컴
 
 
 
-### 4. Extension 활용 케이스는 어떤 것이 있는가?
+### 4. Extension, POP 활용 케이스는 어떤 것이 있는가?
 | 분야         | 예시                                     | 설명                   |
 | ---------- | -------------------------------------- | -------------------- |
 | SwiftUI    | `View` 프로토콜 + `.modifier()` 확장         | 기능 주입, 유연한 UI 설계     |
@@ -149,25 +149,59 @@ extension Printable where Self: Identifiable {
     }
 }
 
-
 struct User: Printable, Identifiable {
     let id: String
     let name: String
 }
-
 // User 는 printDescription() 를 쓸 수 있다.
+let user = User(id: "abc123")
+user.printDescription() // 출력: "ID: abc123"
+
+
+// 나는 Printable 프로토콜을 체택 하고서 struct가 Item인 애한테만 printDescription 를 줄거야. 라는 의미임.
+// 
+extension Printable where Self == Item {
+    func printDescription() {
+        print("This is Item only.")
+    }
+}
+
+struct Item: Printable {
+    // Identifiable 채택 안 함
+    // Item struct 임
+}
+
+let item = Item()
+item.printDescription() 
+// Item 는 printDescription() 를 쓸 수 있다.
+// 출력: "This is Item only."
 
 struct Logger: Printable {
     // Identifiable은 아님
+    // Item도 아님
 }
-
 // Logger 는 printDescription() 를 쓸 수 없다.
 
 
+let logger = Logger()
+// c.printDescription() // ❌ 컴파일 오류: 구현 없음
 
-// StructA 타입만을 위한 기능도 가능함
-// 등호 방식은 좀 더 디테일하게 타겟팅 하는 방식.
-extension Printable where Self == StructA { ... }
+
+
+
+// 만약에!! 
+// 이렇게 
+// where Self : 조건
+// where Self == 조건에도 부합한다면???
+struct Item: Printable, Identifiable {
+}
+
+// where Self == 조건 이 더 구체적이라 이 구현이 우선이 됨. 🫢
+
+let item2 = Item()
+item2.printDescription() 
+// Item2 는 printDescription() 를 쓸 수 있다.
+// 출력: "This is Item only."
 
 
 ```
