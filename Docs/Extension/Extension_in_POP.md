@@ -140,15 +140,14 @@ protocol Identifiable {
     var id: String { get }
 }
 
+
+// 나는 Printable 프로토콜을 체택 하고서 Identifiable 프로토콜까지 체택한 애한테만 printDescription 를 줄거야. 라는 의미임.
+// 프로토콜 두개의 조합인 타입에게만 기능을 줄 수 있음.
 extension Printable where Self: Identifiable {
     func printDescription() {
         print("ID: \(id)")
     }
 }
-
-// 나는 Printable 프로토콜을 체택 하고서 Identifiable 프로토콜까지 체택한 애한테만 printDescription 를 줄거야. 라는 의미임.
-
-// 프로토콜 두개의 조합인 타입에게만 기능을 줄 수 있음.
 
 
 struct User: Printable, Identifiable {
@@ -163,6 +162,14 @@ struct Logger: Printable {
 }
 
 // Logger 는 printDescription() 를 쓸 수 없다.
+
+
+
+// StructA 타입만을 위한 기능도 가능함
+// 등호 방식은 좀 더 디테일하게 타겟팅 하는 방식.
+extension Printable where Self == StructA { ... }
+
+
 ```
 
 
