@@ -2,9 +2,9 @@
 
 >[!question]
 >GQ1. POP는 OOP와 어떤 철학적 차이를 가지는가?
->GQ2. Extension과 POP은 어떤 방식으로 결합되며, 함께 쓰일 때 어떤 효과를 가지는가?
+>GQ2. Extension은 어떤 방식으로 결합되며, 함께 쓰일 때 어떤 효과를 가지는가?
 >GQ3. POP이 Swift에서 강조되는 이유는 무엇이며, 플랫폼 최적화와 어떤 연관이 있는가?
->GQ4. Extension, POP 활용 케이스는 어떤 것이 있는가?
+>GQ4. Extension + ??? 활용 케이스는 어떤 것이 있는가?
 
 ## Description
 
@@ -48,7 +48,7 @@ struct Person: Printable, Identifiable {
 
 
 
-### 2. Extension과 POP 의 결합 효과
+### 2. POP 안에서의 Extension 결합 효과
 
 > [!NOTE]
 > protocol 과 extension 을 결합하면 이와 같은 효과를 보인다.
@@ -75,7 +75,7 @@ extension 을 통한 기본 구현은 정적 디스패치(static dispach) -> 컴
 
 
 
-### 4. Extension, POP 활용 케이스는 어떤 것이 있는가?
+### 4. Extension 활용 케이스는 어떤 것이 있는가?
 | 분야         | 예시                                     | 설명                   |
 | ---------- | -------------------------------------- | -------------------- |
 | SwiftUI    | `View` 프로토콜 + `.modifier()` 확장         | 기능 주입, 유연한 UI 설계     |
