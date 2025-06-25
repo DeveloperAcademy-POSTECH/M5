@@ -1,25 +1,25 @@
->[!question]
->GQ1. Swift는 무엇일까?
->GQ2. Swift는 언제 만들어졌을까?
->GQ3. 
+> [!question]
+> GQ1. Swift는 무엇일까?
+> GQ2. Swift는 언제 만들어졌을까?
+> GQ3.
 
 ## Description
 
 **Swift**는 Apple이 2014년에 처음 발표한 프로그래밍 언어로, iOS, macOS, watchOS, tvOS 등 Apple 플랫폼에서 주로 사용된다. Swift는 빠르고 안전하며, 모던한 문법을 통해 사용자가 쉽게 이해하고 사용할 수 있도록 설계되었음. 기존의 Objective-C 언어를 대체할 목적으로 개발되었으며, 다음과 같은 주요 특징을 가지고 있다.
 
 - **안전성 (Safety)**: 강력한 타입 검사와 옵셔널(Optionals)을 통해 널 포인터 에러를 방지할 수 있음
-    
 - **성능 (Performance)**: LLVM 컴파일러를 통해 빠른 코드 실행을 지원
-    
 - **현대적 문법 (Modern Syntax)**:
-	    [[Protocol]]
+  [[Protocol]]
 - **오픈 소스 (Open Source)**: Swift는 오픈 소스로 제공되며, 활발한 커뮤니티에서 발전하고 있음
 
 - 프레임워크 (Framework) :
-	- [[Framework]]
+  - [[Framework]]
 - 파운데이션 (Foundation) :
-	- [[Foundation]]
+  - [[Foundation]]
+
 ## 코드 예시
+
 ```swift
 // 공식 문서의 Swift 소개 코드
 var interestingNumbers = [
@@ -38,6 +38,7 @@ print(interestingNumbers["primes"]!)
 ```
 
 ## References
+
 - [Apple 공식 Swift 문서](https://developer.apple.com/documentation/swift)
 - [Swift 오픈 소스 GitHub 저장소](https://github.com/apple/swift)
 - [Swift.org - Open Source Project](https://swift.org/)

@@ -154,6 +154,8 @@ Heap에서 메모리를 해제한다면 MMU를 업데이트 해줘야 하기도 
 
 > Class & Struct 비교 2편에서 계속..
 
+[[Class, Struct 비교 분석 마무리]]
+
 ---
 
 # Reference
