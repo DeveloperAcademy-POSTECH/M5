@@ -190,6 +190,7 @@ private func subscribeValidatedPassword() {
 - [[Built-in Subscribers]]
 - Operator
 - [[Cancellable&AnyCancellable]]
+- [[Subject]]
 
 ## References
 - [Apple Documentation) Combine](https://developer.apple.com/documentation/combine)
