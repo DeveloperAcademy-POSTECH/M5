@@ -1,0 +1,3 @@
+- [[Dependency Injection]]
+- [[Single Responsibility]]
+- [[Open Closed]]

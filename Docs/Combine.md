@@ -1,9 +1,10 @@
+>[!question]
 >GQ1. Combine은 어떨 때 사용할까?(Combine은 왜 필요할까?)
 >GQ2. Combine을 어떻게 쓸까?
 
 ## Description
 - Combine은 왜 언제 써먹어야 하는가
-- Combine의 기본 구성요소: Publisher, Operator, Subscriber
+- Combine의 기본 구성요소: **Publisher**, **Operator**, **Subscriber**
 
 ## Combine은 왜 언제 써먹어야 하는가
 1. 반응형 UI: 데이터가 바뀌면 UI도 자동으로 즉시 업데이트되어야 하는 상황
@@ -18,7 +19,9 @@
 3. Operator
         
 ### Publisher
-내보내는 애 (to expose values that can change over time)
+
+> to expose values that can change over time
+> : 내보내는 애!
 
 ```swift
 protocol Publisher {
@@ -37,12 +40,14 @@ protocol Publisher {
   : 지정한 Subscriber를 이 Publisher에 연결
 
 ### Subscriber
-받는 애 (to receive those values from the publishers)
+
+> to receive those values from the publishers
+> : 받는 애!
 
 ```swift
-protocol Subscriber {`
-	associatedtype Input`
-	associatedtype Failure: Error`
+protocol Subscriber {
+	associatedtype Input
+	associatedtype Failure: Error
 	
 	func receive(subscription: Subscription)
 	func receive(_ input: Input) -> Subscribers.Demand
@@ -62,29 +67,7 @@ protocol Subscriber {`
 - `receive(completion: Subscribers.Completion<Failure>)`
   : Publisher가 정상적으로 또는 오류로 게시를 완료했음을 Subscriber에게 알림
 
-------
-### Built-in Subscribers
-Combine에서는 subscriber를 직접 구현하지 않아도, Publisher의 Output 및 Failure 유형과 자동으로 일치하는 두 개의 기본 제공 구독자를 제공한다!
-
-1. **sink**: Publisher가 보내주는 값을 직접 작성한 코드로 처리
-	1. `sink(receiveCompletion:receiveValue:)`
-	2. `sink(receiveValue:)`
-
-	```swift
-$namePublisher
-	.sink { name in
-		print("입력된 이름은 \(name)입니다")  // 값을 직접 받아서 처리
-	}
-```
-	    
-2. **assign**: 값을 자동으로 특정 객체의 속성에 대입(assign) 해주는 방식
-	1. `assign(to:on:)`
-	2. `assign(to:)`
-```swift
-$isLoginEnabledPublisher
-		.assign(to: \.isEnabled, on: loginButton)  // 값이 바뀔 때마다 버튼 상태 업데이트
-```
-	
+- 편리하게 Subscriber를 사용하고 싶다면? [[Built-in Subscribers]]!
 
 ### Publisher ↔ Subscriber 흐름
 - Subscriber와 Publisher를 연결하기 위해서는 Input과 Output의 타입이 일치해야 하고, Failure도 일치해야 한다!
@@ -114,51 +97,8 @@ $isLoginEnabledPublisher
 
 
 ## 코드 예시
-1. Sink subscriber
-	```swift
-class SearchViewModel: ObservableObject {
-	@Published var searchText = ""
-	@Published var searchResults: [String] = []
-	@Published var isLoading = false
-	
-	private var cancellables = Set<AnyCancellable>()
-	private let searchService = SearchService()
-	
-	init() {
-		$searchText
-			.debounce(for: .milliseconds(300), scheduler: RunLoop.main)
-			.removeDuplicates()
-			.sink { [weak self] searchText in
-				self?.performSearch(searchText)
-			}
-			.store(in: &cancellables)
-	}
-	
-	private func performSearch(_ text: String) {
-		// 검색 로직
-	}
-}
-```
-	
-2. Assign Subscriber
-	```swift
-class LoginViewModel: ObservableObject {
-	@Published var username = ""
-	@Published var password = ""
-	@Published var isLoginButtonEnabled = false
 
-	private var cancellables = Set<AnyCancellable>()
-
-	init() {
-		Publishers.CombineLatest($username, $password) 
-			.map { !$0.0.isEmpty && !$0.1.isEmpty } 
-			.assign(to: &$isLoginButtonEnabled)
-	}
-}
-```
-
-3. Publisher & Subscribers
-**Publishers**
+#### Publishers
 ```swift
 // MARK: - Publisher
 @Published private var userName: String = ""
@@ -206,7 +146,7 @@ var validatedCredentials: AnyPublisher<(String, String)?, Never> {
 }
 ```
 
-**Subscribers**
+#### Subscribers
 ```swift
 // MARK: - Subscriber (assign)
 private func subscribeValidatedCredentials() {
@@ -241,6 +181,13 @@ private func subscribeValidatedPassword() {
 		.store(in: &cancellables)
 }
 ```
+
+## Keywords
+- Publisher
+- Subscriber
+- [[Built-in Subscribers]]
+- Operator
+- [[Cancellable&AnyCancellable]]
 
 ## References
 - [Apple Documentation) Combine](https://developer.apple.com/documentation/combine)
