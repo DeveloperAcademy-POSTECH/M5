@@ -3,7 +3,8 @@ in Combine
 >[!question]
 >Combine에서 Subject는 무엇이고 왜 필요할까?
 
-## Subject는 무엇일까?
+## #Subject 는 무엇일까?
+
 Subject는 Combine 프레임워크에서 데이터를 보내고, 받을 수 있는 특별한 Publisher입니다. 일반적인 Publisher는 값을 “내보내기만” 하지만, Subject는 외부에서 값을 직접 주입할 수 있다는 점이 핵심적인 차이점!
 
 #### Subject의 정의
@@ -56,8 +57,26 @@ Subject는 `send(_:)` 메서드를 이용해 Subscriber에게 값을 보낼 수�
 
 그 값이 상위 Publisher에서 생성된 경우에도 마찬가지!(Subscriber처럼 상위 Publisher 구독)
 
+```swift
+// Using Subjects with Combine
+let trickNamePublisher = ... // Publisher of <String, Never>
+
+let magicWordsSubject = PassThroughSubject<String, Never>()
+
+trickNamePublisher.subscribe(magicWordSubject)
+
+let canceller = magicWordsSubject.sink { value in
+	// do something with the value
+}
+
+magicWordsSubject.send("Please")
+
+let sharedTrickNamePublisher = trickNamePublisher.share()
+```
+
 ## Subject의 종류
-### PassthroughSubject
+### #PassthroughSubject
+
 > **A subject that broadcasts elements to downstream subscribers.**
 > : 요소(element)를 하위 Subscriber들에게 방송(broadcast)하는 Subject
 
@@ -115,7 +134,8 @@ Received value (2) Hello
 Received value (1) World
 Received value (2) World
 ```
-### CurrentValueSubject
+### #CurrentValueSubject
+
 > **A subject that wraps a single value and publishes a new element whenever the value changes.**
 > : **최근 값을 저장**하고, 값이 바뀔 때마다 새로운 값을 발행하는 Subject
 
@@ -155,6 +175,122 @@ example(of: "CurrentValueSubject") {
 3. PassThroughSubject와 마찬가지로 `send(_:)`를 호출해서 새 값을 발행 가능
 4. 이렇게 발행된 값은 현재 값으로 설정되고, 이 설정된 현재 값은 value 값으로 확인할 수 있음
 5. value에 새 값을 직접 할당하는 방법을 통해서도 값을 발행하고 현재 값을 변경할 수 있음
+
+### PassthroughSubject vs. CurrentValueSubject
+그렇다면 이 두가지의 Subject는 어떤 상황에서 어떻게 선택하면 좋을까요?
+선택의 기준은 값이 필요한지의 여부에 따라 결정됩니다.
+##### 값을 저장하면서 상태를 유지하고 싶다면? → #CurrentValueSubject
+- 현재 상태/값이 중요한 경우
+- 새로운 Subscriber가 즉시 최신 값을 받아야 하는 경우
+- 값 기반 로직 처리가 필요한 경우
+
+**예시 코드**
+1. 로그인한 사용자 정보 저장 및 업데이트
+   : 앱 전체에서 로그인 상태를 추적해야 할 때
+```swift
+let currentUser = CurrentValueSubject<User?, Never>(nil)
+
+// 구독: 사용자 정보에 반응하는 뷰모델 등
+currentUser
+    .sink { user in
+        print("현재 사용자: \(user?.name ?? "없음")")
+    }
+    .store(in: &cancellables)
+
+// 로그인 성공 시
+currentUser.send(loggedInUser)
+```
+
+2. 서버에서 받아온 데이터 캐싱 및 변경 추적
+   : 서버 응답 이후의 데이터를 상태로 보존하고 싶을 때
+```swift
+class WeatherService {
+    private let weatherSubject = CurrentValueSubject<Weather?, Never>(nil)
+    
+    var currentWeather: AnyPublisher<Weather?, Never> {
+        weatherSubject.eraseToAnyPublisher()
+    }
+    
+    func fetchWeather() {
+        let newWeather = Weather(temperature: 25, condition: "Sunny")
+        weatherSubject.send(newWeather)
+    }
+    
+    // 현재 캐시된 날씨 정보에 즉시 접근
+    var latestWeather: Weather? {
+        weatherSubject.value
+    }
+    
+    // CurrentValueSubject의 활용 예시들
+    func shouldShowWeatherAlert() -> Bool {
+        guard let weather = latestWeather else { return false }
+        return weather.temperature > 35 || weather.temperature < -10
+    }
+    
+    func getWeatherSummary() -> String {
+        guard let weather = latestWeather else { 
+            return "날씨 정보 없음" 
+        }
+        return "\(weather.temperature)°C, \(weather.condition)"
+    }
+    
+    func isWeatherDataStale() -> Bool {
+        // 현재 값이 있는지 즉시 확인
+        return latestWeather == nil
+    }
+}
+
+// 실제 활용 예시
+let weatherService = WeatherService()
+
+// 1. 네트워크 요청 전에 캐시된 데이터 확인
+if weatherService.isWeatherDataStale() {
+    print("캐시된 데이터 없음, API 호출 필요")
+    weatherService.fetchWeather()
+} else {
+    print("캐시된 데이터 사용: \(weatherService.getWeatherSummary())")
+}
+
+// 2. 현재 날씨 기반으로 즉시 결정
+if weatherService.shouldShowWeatherAlert() {
+    print("극한 날씨 경고 표시!")
+}
+
+// 3. 구독과 동시에 현재 값도 활용
+weatherService.currentWeather
+    .sink { weather in
+        print("구독으로 받은 업데이트: \(weather?.temperature ?? 0)°C")
+        
+        // 구독 내에서도 현재 값에 접근 가능
+        let summary = weatherService.getWeatherSummary()
+        print("현재 요약: \(summary)")
+    }
+    .store(in: &cancellables)
+```
+
+##### 그냥 이벤트를 흘려보내고 싶다면 → #PassthroughSubject
+- 이벤트 기반 통신 (버튼 탭, 네트워크 완료 등)
+- 상태보다는 액션이 중요한 경우
+- 과거 값이 의미없는 일회성 이벤트
+
+1. 버튼 탭 처리
+   : 사용자가 버튼을 누를 때마다 이벤트를 방출하지만, 이전에 누른 건 기억할 필요가 없음
+```swift
+let didTapButton = PassthroughSubject<Void, Never>()
+```
+
+2. Alert 또는 Toast 띄우기
+   : “에러 메시지” 같은 건 그 순간만 나타내고 말기 때문에 값을 저장할 필요 없음.
+```swift
+let showAlert = PassthroughSubject<String, Never>()
+```
+
+3. 다시 시도 요청
+   : “다시 시도” 버튼을 눌렀을 때 네트워크 요청을 다시 보내는 트리거로 사용.
+```swift
+let retryRequested = PassthroughSubject<Void, Never>()
+```
+
 
 ## References
 official
