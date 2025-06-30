@@ -1,11 +1,11 @@
-제출일: YYYY-MM-DD
+제출일: 2025-06-29
 
 >[!question]
->GQ1. GQ를 쓰세요
->GQ2. GQ를 쓰세요
+>GQ1. Swift의 Protocol은 SOLID 원칙과 어떻게 연결될까
 
 ## Description
-- 개요와 설명을 작성
+>SOL ' I ' D 
+>
 
 ## 주요 기능
 + 실제 활용을 작성
